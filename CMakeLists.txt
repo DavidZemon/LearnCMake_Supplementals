@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
-project(LearnCMake_Supplementals)
+project(reverse
+        VERSION 1.0.1)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -9,15 +10,15 @@ foreach (lib_type SHARED STATIC)
     target_include_directories(reverse_${lib_type} PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
-    install(TARGETS reverse_${lib_type} EXPORT reverse
+    install(TARGETS reverse_${lib_type} EXPORT ${PROJECT_NAME}Config
         DESTINATION lib)
 endforeach ()
 
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/include"
     DESTINATION .
     FILES_MATCHING PATTERN "*.h")
-install(EXPORT reverse
-    DESTINATION .)
+install(EXPORT ${PROJECT_NAME}Config
+    DESTINATION "lib/cmake/${PROJECT_NAME}")
 
 set(CPACK_INSTALL_CMAKE_PROJECTS
     "${PROJECT_BINARY_DIR}"
