@@ -1,18 +1,16 @@
 cmake_minimum_required(VERSION 3.7)
-project(reverse
-        VERSION 1.0.1)
+project(reverse)
 
+option(BUILD_SHARED_LIBS "Build dynamic libraries when on, static otherwise" ON)
 set(CMAKE_CXX_STANDARD 11)
 
-foreach (lib_type SHARED STATIC)
-    add_library(reverse_${lib_type} ${lib_type} src/reverse.cpp)
-    set_target_properties(reverse_${lib_type} PROPERTIES OUTPUT_NAME "reverse")
-    target_include_directories(reverse_${lib_type} PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>)
-    install(TARGETS reverse_${lib_type} EXPORT ${PROJECT_NAME}Config
-        DESTINATION lib)
-endforeach ()
+add_library(reverse src/reverse.cpp)
+set_target_properties(reverse PROPERTIES OUTPUT_NAME "reverse")
+target_include_directories(reverse PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
+install(TARGETS reverse EXPORT ${PROJECT_NAME}Config
+    DESTINATION lib)
 
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/include"
     DESTINATION .
